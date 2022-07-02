@@ -1,0 +1,22 @@
+{
+  "Blog_name": "Blog",
+  "Blog_mode": "debug",
+  "Blog_host": "localhost",
+  "Blog_port": "80",
+  "database": {
+    "driver": "mysql",
+    "user": "root",
+    "password": "root",
+    "host": "127.0.0.1",
+    "port": "3306",
+    "db_name": "blog",
+    "charset": "utf8",
+    "show_sql": true
+  },
+  "redis": {
+    "addr": "127.0.0.1",
+    "port": "6379",
+    "password": "",
+    "db": 0
+  }
+}
