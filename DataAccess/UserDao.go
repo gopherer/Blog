@@ -24,7 +24,11 @@ func (userDao *UserDao) ModifyAccount(reqUser model.User) {
 }
 
 func (userDao *UserDao) ModifyProfile(reqUser model.User) {
-	_, _ = Tools.DbEngine.Cols("user_nick", "user_icon", "user_profile", "user_contact").Update(reqUser)
+	_, _ = Tools.DbEngine.Cols("user_nick", "user_profile", "user_contact").Update(reqUser)
+}
+
+func (userDao *UserDao) ModifyIcon(reqUser model.User) {
+	_, _ = Tools.DbEngine.Cols("user_icon").Update(reqUser)
 }
 
 func (userDao *UserDao) GetProfile(reqUser model.User) model.User {

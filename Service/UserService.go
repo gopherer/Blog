@@ -38,3 +38,7 @@ func (userService *UserService) ProfileGet(reqUser model.User) *model.User {
 	respUser := userDao.GetProfile(reqUser)
 	return &respUser
 }
+
+func (userService *UserService) IconModify(reqUser model.User) {
+	new(DataAccess.UserDao).ModifyIcon(reqUser)
+}

@@ -8,7 +8,8 @@
     <ol style="list-style-type: none">
         <li>账号:{{.account}}</li>
         <li>昵称:{{.nick}}</li>
-        <li>头像:{{.icon}}</li>
+{{/*        <li>头像:{{.icon}}</li>*/}}
+        <li>头像:<img src="{{.icon}}" width="200" height="200"> </li>
         <li>个人介绍:{{.profile}}</li>
         <li>联系方式:{{.contact}}</li>
     </ol>
@@ -17,6 +18,9 @@
     </form>
     <form action="profile" method="get">
         <input type="submit" value="个人信息修改">
+    </form>
+    <form action="upLoad" method="get">
+        <input type="submit" value="上传头像">
     </form>
 </body>
 </html>

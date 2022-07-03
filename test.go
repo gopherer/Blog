@@ -1,21 +1,24 @@
 package main
 
 import (
-	"blog/model"
-	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
+	"github.com/gin-gonic/gin"
+	"html/template"
+	"net/http"
 )
 
 func main() {
-	engine, err := xorm.NewEngine("mysql", "root:root@tcp(127.0.0.1:3306)/blog?charset=utf8")
-	fmt.Println(err)
-	if err := engine.Ping(); err != nil {
-		fmt.Println(err)
-		return
-	}
-	var user model.User
-	_, _ = engine.Where("user_account=?", "123456").Get(&user)
-	fmt.Println(user)
+	router := gin.Default()
+	router.Static("/upload", "./Upload")
+	router.SetFuncMap(template.FuncMap{
+		"safe": func(str string) template.HTML {
+			return template.HTML(str)
+		},
+	})
+	router.LoadHTMLFiles("./test.tmpl")
 
+	router.GET("/test", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "test.tmpl", `<div> <img src ="upload/go1656829298.jpg" /></div>`)
+	})
+
+	router.Run(":8080")
 }
