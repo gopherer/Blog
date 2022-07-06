@@ -2,6 +2,7 @@ package Controller
 
 import (
 	"blog/Controller/CTools"
+	"blog/Controller/Middleware"
 	"blog/Service"
 	"blog/model"
 	"github.com/gin-gonic/gin"
@@ -16,12 +17,12 @@ type BlogController struct {
 }
 
 func (blogController *BlogController) BlogController(context *gin.RouterGroup) {
-	context.POST("/publish", postPublish)
-	context.POST("/modify", postModify)
-	context.POST("/delete", postDelete)
-	context.GET("/publish", getPublish)
-	context.GET("/modify", getModify)
-	context.GET("/delete", getDelete)
+	context.POST("/publish", Middleware.JudgeMiddle(), postPublish)
+	context.POST("/modify", Middleware.JudgeMiddle(), postModify)
+	context.POST("/delete", Middleware.JudgeMiddle(), postDelete)
+	context.GET("/publish", Middleware.JudgeMiddle(), getPublish)
+	context.GET("/modify", Middleware.JudgeMiddle(), getModify)
+	context.GET("/delete", Middleware.JudgeMiddle(), getDelete)
 }
 func postPublish(context *gin.Context) {
 	var blog model.Blog

@@ -10,7 +10,7 @@ import (
 type UserDao struct {
 }
 
-func (userDao *UserDao) GetUserInfo(reqUser model.User) model.User {
+func (userDao *UserDao) GetUserLogin(reqUser model.User) model.User {
 	var user model.User
 	has, err := Tools.DbEngine.Where("user_account=?", reqUser.UserAccount).Get(&user) //注意传入的是地址
 	if !has {
@@ -34,4 +34,10 @@ func (userDao *UserDao) ModifyIcon(reqUser model.User) {
 func (userDao *UserDao) GetProfile(reqUser model.User) model.User {
 	_, _ = Tools.DbEngine.Get(&reqUser) //注意传入的是地址
 	return reqUser
+}
+
+func (userDao *UserDao) GetUser() model.User {
+	var user model.User
+	_, _ = Tools.DbEngine.Get(&user)
+	return user
 }

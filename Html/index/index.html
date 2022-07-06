@@ -1,0 +1,38 @@
+{{ define "Html/index.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>米奇妙妙屋</title>
+</head>
+<body>
+    <ol style="list-style-type: none;float: left ">
+        {{range  $t := .blog}}
+            {{/*            <li>{{$t.BlogTitle}}:---<img src="{{$t.BlogPhoto}}" width="200" height="200" alt=""></li>*/}}
+            <table >
+                <tr>
+                    <th>标题</th>
+                    <th>图片</th>
+                    <th>内容</th>
+                </tr>
+                <tr>
+                    <td>{{$t.BlogTitle}}</td>
+                    <td><img src="{{$t.BlogPhoto}}" width="200" height="200" alt=""></td>
+                    <td>{{$t.BlogContent}}</td>
+                </tr>
+            </table>
+        {{end}}
+    </ol>
+
+    <ol style="list-style-type: none;float: right" >
+        <li> <span style="color: red;font-weight:bolder;">账号:</span> {{.account}}</li>
+        <li> <span style="color: red;font-weight:bolder;">昵称:</span>{{.nick}}</li>
+        <li><span style="color: red;font-weight:bolder;">头像:</span><img src="{{.icon}}" width="200" height="200"> </li>
+        <div style="width: 300px;height: 150px">
+            <li><span style="color: red;font-weight:bolder;">个人介绍:</span>{{.profile}}</li>
+        </div>
+        <li><span style="color: red;font-weight:bolder;">联系方式:</span>{{.contact}}</li>
+    </ol>
+</body>
+</html>
+{{ end }}

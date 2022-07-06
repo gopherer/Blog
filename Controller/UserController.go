@@ -22,7 +22,7 @@ type UserController struct {
 
 //每调用一次handle 都可以视为调用一次goroutine
 func (uL *UserController) UserController(context *gin.RouterGroup) {
-	context.POST("/home", postUserLogin)
+	context.POST("/home", Middleware.JudgeMiddle(), postUserLogin)
 	context.POST("/account", Middleware.JudgeMiddle(), postAccount)
 	context.POST("/profile", Middleware.JudgeMiddle(), postProfile)
 	context.POST("/upload", Middleware.JudgeMiddle(), postUpLoad)

@@ -11,7 +11,7 @@ type UserService struct {
 
 func (userService *UserService) UserLogin(reqUser model.User) (*model.User, error) {
 	var userDao DataAccess.UserDao
-	respUser := userDao.GetUserInfo(reqUser)
+	respUser := userDao.GetUserLogin(reqUser)
 	if respUser.UserAccount == "" {
 		return new(model.User), errors.New("用户不存在")
 	} else if respUser.UserAccount == respUser.UserAccount && reqUser.UserPwd != respUser.UserPwd {
@@ -41,4 +41,8 @@ func (userService *UserService) ProfileGet(reqUser model.User) *model.User {
 
 func (userService *UserService) IconModify(reqUser model.User) {
 	new(DataAccess.UserDao).ModifyIcon(reqUser)
+}
+
+func (userService *UserService) GetUser() model.User {
+	return new(DataAccess.UserDao).GetUser()
 }

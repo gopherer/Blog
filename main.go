@@ -27,11 +27,14 @@ func init() {
 
 func main() {
 	engine := gin.Default()
-	engine.Static("user/Upload/user", "./Upload/user") //加载静态资源   路由组会导致访问是默认加上路由组定义的路径。
-	engine.Static("blog/Upload/user", "./Upload/user") //加载静态资源   路由组会导致访问是默认加上路由组定义的路径。
+	engine.Static("user/Upload/user", "./Upload/user") //加载静态资源   路由组会导致访问是默认加上路由组定义的路径。user组
+	engine.Static("blog/Upload/user", "./Upload/user")
 	//engine.Static("/blog/publish", "./Upload/blog")
-	engine.Static("user/Upload/blog", "./Upload/blog")
+	engine.Static("user/Upload/blog", "./Upload/blog") //加载静态资源   路由组会导致访问是默认加上路由组定义的路径。blog组
 	engine.Static("blog/Upload/blog", "./Upload/blog")
+	//
+	engine.Static("Upload/user", "./Upload/user")
+	engine.Static("Upload/blog", "./Upload/blog")
 	engine.LoadHTMLGlob("Html/**/*") //模板解析
 	//engine.MaxMultipartMemory = 8 << 20
 	Tools.InitSession(engine, &Tools.Cfg.Redis)
@@ -39,6 +42,7 @@ func main() {
 	blogRouter := engine.Group("/blog")
 	new(Controller.UserController).UserController(userRouter)
 	new(Controller.BlogController).BlogController(blogRouter)
+	new(Controller.IndexController).IndexController(engine)
 	err := engine.Run(Tools.Cfg.BlogHost + ":" + Tools.Cfg.BlogPort)
 	if err != nil {
 		logger.Error(err)
