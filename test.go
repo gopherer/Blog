@@ -2,23 +2,27 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"html/template"
 	"net/http"
 )
 
+type Person struct {
+	Name string
+}
+
 func main() {
-	router := gin.Default()
-	router.Static("/upload", "./Upload")
-	router.SetFuncMap(template.FuncMap{
-		"safe": func(str string) template.HTML {
-			return template.HTML(str)
-		},
+	//t := time.Now()
+	//a := t.Format("2006-01-02 15:04:05")
+	//fmt.Println(a)
+	var arr = make([]Person, 3)
+	arr[0].Name = "0000"
+	arr[1].Name = "1111"
+	arr[2].Name = "2222"
+	engine := gin.Default()
+	engine.LoadHTMLFiles("test.html")
+	engine.GET("/test", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "test.html", gin.H{
+			"arr": arr,
+		})
 	})
-	router.LoadHTMLFiles("./test.tmpl")
-
-	router.GET("/test", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "test.tmpl", `<div> <img src ="upload/go1656829298.jpg" /></div>`)
-	})
-
-	router.Run(":8080")
+	engine.Run()
 }

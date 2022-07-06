@@ -21,7 +21,7 @@ func OrmEngine(database model.DatabaseConfig) error {
 		return err
 	}
 	engine.ShowSQL(database.ShowSql)
-	err = engine.Sync2(new(model.User)) //将结构体映射为数据库中的表
+	err = engine.Sync2(new(model.User), new(model.Blog)) //将结构体映射为数据库中的表
 	if err != nil {
 		logger.Error(err)
 	}

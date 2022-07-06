@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博文修改</title>
+</head>
+<body>
+    <form action="modify" method="post" enctype="multipart/form-data">
+        标题: <label>
+            <input type="text" name="blog_title">
+        </label><br>
+        图片: <label>
+            <input  style="width: 200px; height: 100px" type="file" name="blog_photo">
+        </label><br>
+        内容: <label>
+            <textarea  name="blog_content"></textarea>
+        </label><br>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>

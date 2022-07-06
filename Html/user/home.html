@@ -4,23 +4,67 @@
     <meta charset="UTF-8">
     <title>用户描述</title>
 </head>
-<body>
-    <ol style="list-style-type: none">
-        <li>账号:{{.account}}</li>
-        <li>昵称:{{.nick}}</li>
-{{/*        <li>头像:{{.icon}}</li>*/}}
-        <li>头像:<img src="{{.icon}}" width="200" height="200"> </li>
-        <li>个人介绍:{{.profile}}</li>
-        <li>联系方式:{{.contact}}</li>
+<body >
+    <div>
+        <ol style="list-style-type: none;float: left " >
+            <li> <span style="color: red;font-weight:bolder;">账号:</span> {{.account}}</li>
+            <li> <span style="color: red;font-weight:bolder;">昵称:</span>{{.nick}}</li>
+            <li><span style="color: red;font-weight:bolder;">头像:</span><img src="{{.icon}}" width="200" height="200"> </li>
+            <div style="width: 300px;height: 150px">
+                <li><span style="color: red;font-weight:bolder;">个人介绍:</span>{{.profile}}</li>
+            </div>
+            <li><span style="color: red;font-weight:bolder;">联系方式:</span>{{.contact}}</li>
+        </ol>
+    </div>
+
+    <div>
+        <span style="float:left;color: green;font-weight:bolder;"> 用户管理：</span>
+        <form style="float:left"  action="../user/account" method="get">
+            <input type="submit" value="账号修改">
+        </form>
+        <form style="float:left" action="../user/profile" method="get">
+            <input type="submit" value="个人信息修改">
+        </form>
+        <form style="float:left" action="../user/upload" method="get">
+            <input type="submit" value="上传头像">
+        </form>
+    </div>
+    <br>
+    <br>
+    <div>
+        <span style="float:left;color: green;font-weight:bolder;"> 博文管理：</span>
+        <form style="float:left" action="../blog/publish" method="get">
+            <input type="submit" value="发布博文">
+        </form>
+        <form style="float:left" action="../blog/modify" method="get">
+            <input type="submit" value="修改博文">
+        </form>
+        <form style="float:left" action="../blog/delete" method="get">
+            <input type="submit" value="删除博文">
+        </form>
+    </div>
+    <br>
+    <br>
+    <span style="color: blueviolet;font-weight:bolder;" >博文内容</span>
+    <br>
+
+    <ol>
+        {{range  $t := .blog}}
+{{/*            <li>{{$t.BlogTitle}}:---<img src="{{$t.BlogPhoto}}" width="200" height="200" alt=""></li>*/}}
+            <table>
+                <tr>
+                    <th>标题 </th>
+                    <th>图片</th>
+                    <th>内容</th>
+                </tr>
+                <tr>
+                    <td>{{$t.BlogTitle}}</td>
+                    <td><img src="{{$t.BlogPhoto}}" width="200" height="200" alt=""></td>
+                    <td>{{$t.BlogContent}}</td>
+                </tr>
+            </table>
+        {{end}}
+
     </ol>
-    <form action="account" method="get">
-        <input type="submit" value="账号修改">
-    </form>
-    <form action="profile" method="get">
-        <input type="submit" value="个人信息修改">
-    </form>
-    <form action="upLoad" method="get">
-        <input type="submit" value="上传头像">
-    </form>
 </body>
 </html>

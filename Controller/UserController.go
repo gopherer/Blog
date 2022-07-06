@@ -1,6 +1,7 @@
 package Controller
 
 import (
+	"blog/Controller/CTools"
 	"blog/Controller/Middleware"
 	"blog/Service"
 	"blog/Tools"
@@ -24,11 +25,11 @@ func (uL *UserController) UserController(context *gin.RouterGroup) {
 	context.POST("/home", postUserLogin)
 	context.POST("/account", Middleware.JudgeMiddle(), postAccount)
 	context.POST("/profile", Middleware.JudgeMiddle(), postProfile)
-	context.POST("/upLoad", Middleware.JudgeMiddle(), postUpLoad)
+	context.POST("/upload", Middleware.JudgeMiddle(), postUpLoad)
 	context.GET("/login", getUserLogin)
 	context.GET("/account", Middleware.JudgeMiddle(), getAccount)
 	context.GET("/profile", Middleware.JudgeMiddle(), getProfile)
-	context.GET("/upLoad", Middleware.JudgeMiddle(), getUpFile)
+	context.GET("/upload", Middleware.JudgeMiddle(), getUpFile)
 }
 
 func postUserLogin(context *gin.Context) {
@@ -53,13 +54,16 @@ func postUserLogin(context *gin.Context) {
 			_, _ = context.Writer.WriteString("Session保存失败")
 			os.Exit(1)
 		}
-		context.HTML(http.StatusOK, "home.html", gin.H{
-			"account": respUser.UserAccount,
-			"nick":    respUser.UserNick,
-			"icon":    respUser.UserIcon[2:],
-			"profile": respUser.UserProfile,
-			"contact": respUser.UserContact,
-		})
+		allBlog := new(Service.BlogService).BlogAll()
+		//返回home结果页
+		CTools.ContextHtml(context, *respUser, allBlog)
+		//context.HTML(http.StatusOK, "home.html", gin.H{
+		//	"account": respUser.UserAccount,
+		//	"nick":    respUser.UserNick,
+		//	"icon":    respUser.UserIcon[2:],
+		//	"profile": respUser.UserProfile,
+		//	"contact": respUser.UserContact,
+		//})
 	} else if err.Error() == accountErr.Error() {
 		context.JSON(http.StatusOK, gin.H{
 			"mes": "用户不存在",
@@ -73,27 +77,37 @@ func postUserLogin(context *gin.Context) {
 
 func postAccount(context *gin.Context) {
 	var user model.User
+	//var blog model.Blog
 	err := context.Bind(&user)
 	if err != nil {
 		logger.Error(err)
 	}
 	err = new(Service.UserService).AccountModify(user)
 	respUser := new(Service.UserService).ProfileGet(user)
-	sess, _ := json.Marshal(respUser)
-	err = Tools.SetSess(context, Tools.SessionKey, sess)
-	//fmt.Println("222", string(sess))
+	err = CTools.SetUserSession(context, *respUser)
 	if err != nil {
 		logger.Error(err)
-		_, _ = context.Writer.WriteString("Session保存失败")
-		os.Exit(1)
 	}
-	context.HTML(http.StatusOK, "home.html", gin.H{
-		"account": respUser.UserAccount,
-		"nick":    respUser.UserNick,
-		"icon":    respUser.UserIcon[2:],
-		"profile": respUser.UserProfile,
-		"contact": respUser.UserContact,
-	})
+	//sess, _ := json.Marshal(respUser)
+	//err = Tools.SetSess(context, Tools.SessionKey, sess)
+	////fmt.Println("222", string(sess))
+	//if err != nil {
+	//	logger.Error(err)
+	//	_, _ = context.Writer.WriteString("Session保存失败")
+	//	os.Exit(1)
+	//}
+	//newBlog := new(Service.BlogService).BlogAll(blog)
+	//fmt.Println(newBlog)
+	allBlog := new(Service.BlogService).BlogAll()
+	//返回home结果页
+	CTools.ContextHtml(context, *respUser, allBlog)
+	//context.HTML(http.StatusOK, "home.html", gin.H{
+	//	"account": respUser.UserAccount,
+	//	"nick":    respUser.UserNick,
+	//	"icon":    respUser.UserIcon[2:],
+	//	"profile": respUser.UserProfile,
+	//	"contact": respUser.UserContact,
+	//})
 
 }
 
@@ -123,15 +137,19 @@ func postProfile(context *gin.Context) {
 		logger.Error(err)
 	}
 	respUser := new(Service.UserService).ProfileGet(user)
-	sess, _ := json.Marshal(respUser)
-	err = Tools.SetSess(context, Tools.SessionKey, sess)
-	//fmt.Println("333", string(sess))
+	err = CTools.SetUserSession(context, *respUser)
 	if err != nil {
 		logger.Error(err)
-		_, _ = context.Writer.WriteString("Session保存失败")
-		os.Exit(1)
 	}
-	//sess := Tools.GetSess(context, Tools.SessionKey)
+	//sess, _ := json.Marshal(respUser)
+	//err = Tools.SetSess(context, Tools.SessionKey, sess)
+	////fmt.Println("333", string(sess))
+	//if err != nil {
+	//	logger.Error(err)
+	//	_, _ = context.Writer.WriteString("Session保存失败")
+	//	os.Exit(1)
+	//}
+	//sess := CTools.GetSess(context, CTools.SessionKey)
 	//switch sess.(type) {
 	//case []byte:
 	//	sessByte = sess.([]byte)
@@ -140,13 +158,16 @@ func postProfile(context *gin.Context) {
 	//if err != nil {
 	//	logger.Error(err)
 	//}
-	context.HTML(http.StatusOK, "home.html", gin.H{
-		"account": respUser.UserAccount,
-		"nick":    respUser.UserNick,
-		"icon":    respUser.UserIcon[2:],
-		"profile": respUser.UserProfile,
-		"contact": respUser.UserContact,
-	})
+	allBlog := new(Service.BlogService).BlogAll()
+	//返回home结果页
+	CTools.ContextHtml(context, *respUser, allBlog)
+	//context.HTML(http.StatusOK, "home.html", gin.H{
+	//	"account": respUser.UserAccount,
+	//	"nick":    respUser.UserNick,
+	//	"icon":    respUser.UserIcon[2:],
+	//	"profile": respUser.UserProfile,
+	//	"contact": respUser.UserContact,
+	//})
 
 }
 func postUpLoad(context *gin.Context) {
@@ -158,7 +179,7 @@ func postUpLoad(context *gin.Context) {
 	index := strings.Index(file.Filename, ".")
 	//fmt.Println(file.Filename[:index])
 	//fmt.Println(file.Filename[index:])
-	filePath := "./Upload/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
+	filePath := "./Upload/user/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
 	err = context.SaveUploadedFile(file, filePath) //将接受的文件保存到filePath路径下
 	if err != nil {
 		logger.Error(err, "文件保存失败")
@@ -167,20 +188,27 @@ func postUpLoad(context *gin.Context) {
 	user.UserIcon = filePath
 	new(Service.UserService).IconModify(user) //将头像路径写入数据库
 	respUser := new(Service.UserService).ProfileGet(user)
-	sess, _ := json.Marshal(respUser)
-	err = Tools.SetSess(context, Tools.SessionKey, sess)
+	err = CTools.SetUserSession(context, *respUser)
 	if err != nil {
 		logger.Error(err)
-		_, _ = context.Writer.WriteString("Session保存失败")
-		os.Exit(1)
 	}
-	context.HTML(http.StatusOK, "home.html", gin.H{
-		"account": respUser.UserAccount,
-		"nick":    respUser.UserNick,
-		"icon":    respUser.UserIcon[2:],
-		"profile": respUser.UserProfile,
-		"contact": respUser.UserContact,
-	})
+	//sess, _ := json.Marshal(respUser)
+	//err = Tools.SetSess(context, Tools.SessionKey, sess)
+	//if err != nil {
+	//	logger.Error(err)
+	//	_, _ = context.Writer.WriteString("Session保存失败")
+	//	os.Exit(1)
+	//}
+	allBlog := new(Service.BlogService).BlogAll()
+	//返回home结果页
+	CTools.ContextHtml(context, *respUser, allBlog)
+	//context.HTML(http.StatusOK, "home.html", gin.H{
+	//	"account": respUser.UserAccount,
+	//	"nick":    respUser.UserNick,
+	//	"icon":    respUser.UserIcon[2:],
+	//	"profile": respUser.UserProfile,
+	//	"contact": respUser.UserContact,
+	//})
 
 }
 
@@ -193,6 +221,7 @@ func getAccount(context *gin.Context) {
 }
 
 func getProfile(context *gin.Context) {
+
 	context.HTML(http.StatusOK, "profile.html", gin.H{})
 }
 
