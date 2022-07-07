@@ -21,14 +21,17 @@ go mon tidy
 - **Tools**:定义了连接**Mysql**,**Redis**数据库、初始化**Session**、解析配置文件等一系列函数
 - **Upload**:用于保存用户头像和发布博客时上传的图片
 
-
 ![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/code.png)
 
 ![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/home.png)
 
+![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/aliyun.png)
+
 ![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/docker1.png)
 
 ![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/docker2.png)
+
+[BLog地址](http://47.111.177.245/)
 
 ## 注意
 
