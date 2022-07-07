@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func ContextHtml(context *gin.Context, user Model.User, blog []Model.Blog) {
-	context.HTML(http.StatusOK, "home.html", gin.H{
+func ContextHtml(context *gin.Context, html string, user Model.User, blog []Model.Blog) {
+	context.HTML(http.StatusOK, html, gin.H{
 		"account": user.UserAccount,
 		"nick":    user.UserNick,
 		"icon":    user.UserIcon,

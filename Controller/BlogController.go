@@ -66,7 +66,7 @@ func postPublish(context *gin.Context) {
 	//fmt.Println("sess", sessUser)
 	allBlog := new(Service.BlogService).BlogAll()
 	//返回home结果页
-	CTools.ContextHtml(context, sessUser, allBlog)
+	CTools.ContextHtml(context, "home.html", sessUser, allBlog)
 	//context.HTML(http.StatusOK, "home.html", gin.H{
 	//	//	"account": sessUser.UserAccount,
 	//	//	"nick":    sessUser.UserNick,
@@ -118,7 +118,7 @@ func postModify(context *gin.Context) {
 	}
 	allBlog := new(Service.BlogService).BlogAll()
 	//返回home结果页
-	CTools.ContextHtml(context, sessUser, allBlog)
+	CTools.ContextHtml(context, "home.html", sessUser, allBlog)
 	//fmt.Println("sess", sessUser)
 	//context.HTML(http.StatusOK, "home.html", gin.H{
 	//	"account": sessUser.UserAccount,
@@ -153,7 +153,7 @@ func postDelete(context *gin.Context) {
 	}
 	allBlog := new(Service.BlogService).BlogAll()
 	//返回home结果页
-	CTools.ContextHtml(context, sessUser, allBlog)
+	CTools.ContextHtml(context, "home.html", sessUser, allBlog)
 	//从session中获取model.user
 	//sess := CTools.GetSess(context, CTools.SessionKey)
 	//switch sess.(type) {

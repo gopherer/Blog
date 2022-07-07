@@ -59,7 +59,7 @@ func postUserLogin(context *gin.Context) {
 		}
 		allBlog := new(Service.BlogService).BlogAll()
 		//返回home结果页
-		CTools.ContextHtml(context, *respUser, allBlog)
+		CTools.ContextHtml(context, "home.html", *respUser, allBlog)
 		//context.HTML(http.StatusOK, "home.html", gin.H{
 		//	"account": respUser.UserAccount,
 		//	"nick":    respUser.UserNick,
@@ -103,7 +103,7 @@ func postAccount(context *gin.Context) {
 	//fmt.Println(newBlog)
 	allBlog := new(Service.BlogService).BlogAll()
 	//返回home结果页
-	CTools.ContextHtml(context, *respUser, allBlog)
+	CTools.ContextHtml(context, "home.html", *respUser, allBlog)
 	//context.HTML(http.StatusOK, "home.html", gin.H{
 	//	"account": respUser.UserAccount,
 	//	"nick":    respUser.UserNick,
@@ -163,7 +163,7 @@ func postProfile(context *gin.Context) {
 	//}
 	allBlog := new(Service.BlogService).BlogAll()
 	//返回home结果页
-	CTools.ContextHtml(context, *respUser, allBlog)
+	CTools.ContextHtml(context, "home.html", *respUser, allBlog)
 	//context.HTML(http.StatusOK, "home.html", gin.H{
 	//	"account": respUser.UserAccount,
 	//	"nick":    respUser.UserNick,
@@ -204,7 +204,7 @@ func postUpLoad(context *gin.Context) {
 	//}
 	allBlog := new(Service.BlogService).BlogAll()
 	//返回home结果页
-	CTools.ContextHtml(context, *respUser, allBlog)
+	CTools.ContextHtml(context, "home.html", *respUser, allBlog)
 	//context.HTML(http.StatusOK, "home.html", gin.H{
 	//	"account": respUser.UserAccount,
 	//	"nick":    respUser.UserNick,
