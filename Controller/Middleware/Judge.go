@@ -25,9 +25,10 @@ func VisitIP() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		visitIp := context.ClientIP()
 		IP := Tools.RedisStore.Get(context, visitIp)
+		user := Tools.GetSess(context, Tools.SessionKey)
 		//fmt.Println(visitIp, "---")
 		//fmt.Println(IP.Val(), "+++")
-		if visitIp == IP.Val() {
+		if visitIp == IP.Val() && user == nil {
 			context.Redirect(http.StatusMovedPermanently, "https://www.baidu.com")
 			context.Abort()
 		} else {
