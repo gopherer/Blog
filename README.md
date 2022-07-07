@@ -25,4 +25,8 @@ git clone https://github.com/gopherer/Blog.git
 
 **解决**：win+i 打开设置-时间和语言-语言-管理语言设置-更改系统区域设置-打勾✔ Beta版：使用Unicode UTF-8提供全球语言支持 。重启即可。
 
+**问题**：git 报错：error: failed to push some refs to 'github.com:gopherer/Blog.git' 
+
+**解决**：原因是直接在GitHub上修改代码或文件导致本地仓库和远程仓库数据不一致。方法：**git push origin master -f**
+
 ###还有许多不足，不完美的地方目前仍在优化中
