@@ -1,13 +1,13 @@
 package CTools
 
 import (
+	"blog/Model"
 	"blog/Tools"
-	"blog/model"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 )
 
-func SetUserSession(context *gin.Context, respUser model.User) error {
+func SetUserSession(context *gin.Context, respUser Model.User) error {
 	sess, _ := json.Marshal(respUser)
 	err := Tools.SetSess(context, Tools.SessionKey, sess)
 	//fmt.Println("333", string(sess))
@@ -18,8 +18,8 @@ func SetUserSession(context *gin.Context, respUser model.User) error {
 	return nil
 }
 
-func GetUserSession(context *gin.Context) (model.User, error) {
-	var sessUser model.User
+func GetUserSession(context *gin.Context) (Model.User, error) {
+	var sessUser Model.User
 	var sessByte []byte
 	sess := Tools.GetSess(context, Tools.SessionKey)
 	switch sess.(type) {
@@ -28,7 +28,7 @@ func GetUserSession(context *gin.Context) (model.User, error) {
 	}
 	err := json.Unmarshal(sessByte, &sessUser)
 	if err != nil {
-		return *new(model.User), err
+		return *new(Model.User), err
 	}
 	return sessUser, nil
 }

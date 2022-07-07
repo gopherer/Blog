@@ -1,14 +1,14 @@
 package Tools
 
 import (
-	"blog/model"
+	"blog/Model"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/redis"
 	"github.com/gin-gonic/gin"
 	"github.com/wonderivan/logger"
 )
 
-func InitSession(engine *gin.Engine, cfg *model.RedisConfig) {
+func InitSession(engine *gin.Engine, cfg *Model.RedisConfig) {
 	store, err := redis.NewStore(10, "tcp", cfg.Addr+":"+cfg.Port, "", []byte("secret"))
 	if err != nil {
 		logger.Error(err)

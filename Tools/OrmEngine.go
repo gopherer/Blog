@@ -1,7 +1,7 @@
 package Tools
 
 import (
-	"blog/model"
+	"blog/Model"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
@@ -13,7 +13,7 @@ import (
 //}
 var DbEngine *xorm.Engine
 
-func OrmEngine(database model.DatabaseConfig) error {
+func OrmEngine(database Model.DatabaseConfig) error {
 	conn := database.User + ":" + database.Password + "@tcp(" + database.Host + ":" + database.Port + ")/" + database.DbName + "?charset=" + database.Charset
 	engine, err := xorm.NewEngine(database.Driver, conn)
 	if err != nil {
@@ -21,7 +21,7 @@ func OrmEngine(database model.DatabaseConfig) error {
 		return err
 	}
 	engine.ShowSQL(database.ShowSql)
-	err = engine.Sync2(new(model.User), new(model.Blog)) //将结构体映射为数据库中的表
+	err = engine.Sync2(new(Model.User), new(Model.Blog)) //将结构体映射为数据库中的表
 	if err != nil {
 		logger.Error(err)
 	}

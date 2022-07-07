@@ -9,7 +9,6 @@ import (
 )
 
 //执行顺序 全局变量→init方法→main方法
-
 func init() {
 	var err error
 	err = Tools.ParseConfig("./Config/Blog.json")

@@ -1,4 +1,4 @@
-package model
+package Model
 
 type Blog struct {
 	BlogTitle      string `form:"blog_title" xorm:"pk varchar(45)"`

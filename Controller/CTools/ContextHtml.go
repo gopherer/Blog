@@ -1,12 +1,12 @@
 package CTools
 
 import (
-	"blog/model"
+	"blog/Model"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func ContextHtml(context *gin.Context, user model.User, blog []model.Blog) {
+func ContextHtml(context *gin.Context, user Model.User, blog []Model.Blog) {
 	context.HTML(http.StatusOK, "home.html", gin.H{
 		"account": user.UserAccount,
 		"nick":    user.UserNick,

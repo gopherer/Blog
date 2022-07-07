@@ -3,8 +3,8 @@ package Controller
 import (
 	"blog/Controller/CTools"
 	"blog/Controller/Middleware"
+	"blog/Model"
 	"blog/Service"
-	"blog/model"
 	"github.com/gin-gonic/gin"
 	"github.com/wonderivan/logger"
 	"net/http"
@@ -17,16 +17,16 @@ type BlogController struct {
 }
 
 func (blogController *BlogController) BlogController(context *gin.RouterGroup) {
-	context.POST("/publish", Middleware.JudgeMiddle(), postPublish)
-	context.POST("/modify", Middleware.JudgeMiddle(), postModify)
-	context.POST("/delete", Middleware.JudgeMiddle(), postDelete)
-	context.GET("/publish", Middleware.JudgeMiddle(), getPublish)
-	context.GET("/modify", Middleware.JudgeMiddle(), getModify)
-	context.GET("/delete", Middleware.JudgeMiddle(), getDelete)
+	context.POST("/publish", Middleware.JudgeLogin(), postPublish)
+	context.POST("/modify", Middleware.JudgeLogin(), postModify)
+	context.POST("/delete", Middleware.JudgeLogin(), postDelete)
+	context.GET("/publish", Middleware.JudgeLogin(), getPublish)
+	context.GET("/modify", Middleware.JudgeLogin(), getModify)
+	context.GET("/delete", Middleware.JudgeLogin(), getDelete)
 }
 func postPublish(context *gin.Context) {
-	var blog model.Blog
-	//var sessUser model.User
+	var blog Model.Blog
+	//var sessUser Model.User
 	//var sessByte []byte
 	file, err := context.FormFile("blog_photo")
 	if err != nil {
@@ -79,8 +79,8 @@ func postPublish(context *gin.Context) {
 
 //修改发布的博客 本质上就是种另类的发布博客    目前先这样处理
 func postModify(context *gin.Context) {
-	var blog model.Blog
-	//var sessUser model.User
+	var blog Model.Blog
+	//var sessUser Model.User
 	//var sessByte []byte
 	file, err := context.FormFile("blog_photo")
 	if err != nil {
@@ -130,10 +130,10 @@ func postModify(context *gin.Context) {
 	//})
 }
 func postDelete(context *gin.Context) {
-	var blog model.Blog
-	//var sessUser model.User
+	var blog Model.Blog
+	//var sessUser Model.User
 	//var sessByte []byte
-	//var sessUser model.User
+	//var sessUser Model.User
 	//var sessByte []byte
 	blog.BlogTitle = context.PostForm("blog_title")
 	_ = new(Service.BlogService).PostDelete(blog)

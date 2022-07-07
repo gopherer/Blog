@@ -1,4 +1,4 @@
-package model
+package Model
 
 //form tag 可接收html form表单 application/x-www-form-urlencoded的内容 也可以接受json文本的内容
 //json tag 只可以接收json的文本内容

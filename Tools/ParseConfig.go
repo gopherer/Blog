@@ -1,14 +1,14 @@
 package Tools
 
 import (
-	"blog/model"
+	"blog/Model"
 	"bufio"
 	"encoding/json"
 	"fmt"
 	"os"
 )
 
-var Cfg *model.Config
+var Cfg *Model.Config
 
 func ParseConfig(filePath string) error {
 	file, err := os.OpenFile(filePath, os.O_RDONLY, 0644) //文件所有者对该文件有读写权限，用户组和其他人只有读权限，没有执行权限

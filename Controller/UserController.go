@@ -3,11 +3,12 @@ package Controller
 import (
 	"blog/Controller/CTools"
 	"blog/Controller/Middleware"
+	"blog/Model"
 	"blog/Service"
 	"blog/Tools"
-	"blog/model"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wonderivan/logger"
 	"net/http"
@@ -22,22 +23,24 @@ type UserController struct {
 
 //每调用一次handle 都可以视为调用一次goroutine
 func (uL *UserController) UserController(context *gin.RouterGroup) {
-	context.POST("/home", Middleware.JudgeMiddle(), postUserLogin)
-	context.POST("/account", Middleware.JudgeMiddle(), postAccount)
-	context.POST("/profile", Middleware.JudgeMiddle(), postProfile)
-	context.POST("/upload", Middleware.JudgeMiddle(), postUpLoad)
-	context.GET("/login", getUserLogin)
-	context.GET("/account", Middleware.JudgeMiddle(), getAccount)
-	context.GET("/profile", Middleware.JudgeMiddle(), getProfile)
-	context.GET("/upload", Middleware.JudgeMiddle(), getUpFile)
+	context.POST("/home", Middleware.VisitIP(), postUserLogin)
+	context.POST("/account", Middleware.JudgeLogin(), postAccount)
+	context.POST("/profile", Middleware.JudgeLogin(), postProfile)
+	context.POST("/upload", Middleware.JudgeLogin(), postUpLoad)
+	context.GET("/login", Middleware.VisitIP(), getUserLogin)
+	context.GET("/account", Middleware.JudgeLogin(), getAccount)
+	context.GET("/profile", Middleware.JudgeLogin(), getProfile)
+	context.GET("/upload", Middleware.JudgeLogin(), getUpFile)
+	context.GET("/flush", Middleware.JudgeLogin(), getCleanFlush)
 }
 
 func postUserLogin(context *gin.Context) {
-	var user model.User
+	var user Model.User
 	err := context.Bind(&user)
 	if err != nil {
 		logger.Error(err)
 	}
+	fmt.Println(user)
 	respUser, err := new(Service.UserService).UserLogin(user)
 	accountErr := errors.New("用户不存在")
 	pwdErr := errors.New("输入密码有误")
@@ -76,8 +79,8 @@ func postUserLogin(context *gin.Context) {
 }
 
 func postAccount(context *gin.Context) {
-	var user model.User
-	//var blog model.Blog
+	var user Model.User
+	//var blog Model.Blog
 	err := context.Bind(&user)
 	if err != nil {
 		logger.Error(err)
@@ -112,8 +115,8 @@ func postAccount(context *gin.Context) {
 }
 
 func postProfile(context *gin.Context) {
-	var user model.User
-	//var sessionUser model.User
+	var user Model.User
+	//var sessionUser Model.User
 	//var sessByte []byte
 	err := context.Bind(&user)
 	//fmt.Println(user)
@@ -171,7 +174,7 @@ func postProfile(context *gin.Context) {
 
 }
 func postUpLoad(context *gin.Context) {
-	var user model.User
+	var user Model.User
 	file, err := context.FormFile("file")
 	if err != nil {
 		context.String(500, "上传图片出错")
@@ -227,4 +230,8 @@ func getProfile(context *gin.Context) {
 
 func getUpFile(context *gin.Context) {
 	context.HTML(http.StatusOK, "upload.html", gin.H{})
+}
+func getCleanFlush(context *gin.Context) {
+	Tools.RedisStore.FlushAll(context)
+	context.Redirect(http.StatusMovedPermanently, "https://www.baidu.com")
 }

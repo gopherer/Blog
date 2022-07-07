@@ -1,4 +1,4 @@
-package model
+package Model
 
 type Config struct {
 	BlogName string         `json:"Blog_name"`
