@@ -2,8 +2,13 @@
 
 ```
 git clone https://github.com/gopherer/Blog.git
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+go mon tidy
 ```
-注意事项：检查Config/Blog.json配置信息与本机配置信息是否相符
+## 注意事项：
+- 检查Config/Blog.json配置信息与本机配置信息是否相符
+- 需初始化数据库表user的账号密码
 
 ## 项目结构：
 
@@ -20,6 +25,10 @@ git clone https://github.com/gopherer/Blog.git
 ![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/code.png)
 
 ![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/home.png)
+
+![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/docker1.png)
+
+![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/docker2.png)
 
 ## 注意
 

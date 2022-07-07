@@ -33,7 +33,7 @@ func postPublish(context *gin.Context) {
 		context.String(500, "上传图片出错")
 	}
 	index := strings.Index(file.Filename, ".")
-	filePath := "./Upload/blog/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
+	filePath := "Upload/blog/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
 	err = context.SaveUploadedFile(file, filePath) //将接受的文件保存到filePath路径下
 
 	blog.BlogTitle = context.PostForm("blog_title")

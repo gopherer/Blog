@@ -182,7 +182,7 @@ func postUpLoad(context *gin.Context) {
 	index := strings.Index(file.Filename, ".")
 	//fmt.Println(file.Filename[:index])
 	//fmt.Println(file.Filename[index:])
-	filePath := "./Upload/user/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
+	filePath := "Upload/user/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
 	err = context.SaveUploadedFile(file, filePath) //将接受的文件保存到filePath路径下
 	if err != nil {
 		logger.Error(err, "文件保存失败")
