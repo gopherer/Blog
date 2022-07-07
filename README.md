@@ -16,11 +16,13 @@ git clone https://github.com/gopherer/Blog.git
 - **Upload**:用于保存用户头像和发布博客时上传的图片
 
 
-![image ](https://github.com/gopherer/Blog/MDPhoto/code.png)
+![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/code.png)
 
+![image ](https://github.com/gopherer/Blog/blob/main/MDPhoto/home.png)
 ##注意
+
 **问题**：使用Navicat设计表时，在字符集为utf8 排序规则为utf8_general_ci时添加注释认为乱码 
 
 **解决**：win+i 打开设置-时间和语言-语言-管理语言设置-更改系统区域设置-打勾✔ Beta版：使用Unicode UTF-8提供全球语言支持 。重启即可。
 
-####还有许多不足，不完美的地方目前仍在优化中
+###还有许多不足，不完美的地方目前仍在优化中
