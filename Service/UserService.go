@@ -22,6 +22,7 @@ func (userService *UserService) UserLogin(reqUser Model.User) (*Model.User, erro
 }
 
 func (userService *UserService) AccountModify(reqUser Model.User) error {
+
 	//var userDao DataAccess.UserDao
 	//userDao.ModifyAccount(reqUser)
 	new(DataAccess.UserDao).ModifyAccount(reqUser)

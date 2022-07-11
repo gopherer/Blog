@@ -28,16 +28,24 @@ func postPublish(context *gin.Context) {
 	var blog Model.Blog
 	//var sessUser Model.User
 	//var sessByte []byte
-	file, err := context.FormFile("blog_photo")
-	if err != nil {
-		context.String(500, "上传图片出错")
-	}
-	index := strings.Index(file.Filename, ".")
-	filePath := "Upload/blog/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
-	err = context.SaveUploadedFile(file, filePath) //将接受的文件保存到filePath路径下
-
 	blog.BlogTitle = context.PostForm("blog_title")
-	blog.BlogPhoto = filePath
+	if blog.BlogTitle == "" {
+		context.String(http.StatusInternalServerError, "标题不能为空")
+		return
+	}
+	//fmt.Println(blog.BlogTitle)
+	file, _ := context.FormFile("blog_photo")
+	//fmt.Println(file, "-----------------")
+	if file != nil {
+		index := strings.Index(file.Filename, ".")
+		filePath := "Upload/blog/" + file.Filename[:index] + strconv.Itoa(int(time.Now().Unix())) + file.Filename[index:]
+		err := context.SaveUploadedFile(file, filePath) //将接受的文件保存到filePath路径下
+		if err != nil {
+			logger.Error(err)
+		}
+		blog.BlogPhoto = filePath
+	}
+
 	blog.BlogContent = context.PostForm("blog_content")
 
 	//获取系统时间 设置博客创建时间
@@ -45,7 +53,7 @@ func postPublish(context *gin.Context) {
 	blog.BlogCreateTime = t.Format("2006-01-02 15:04:05")
 	blog.BlogModifyTime = t.Format("2006-01-02 15:04:05")
 
-	err = new(Service.BlogService).PostPublish(blog)
+	err := new(Service.BlogService).PostPublish(blog)
 	if err != nil {
 		logger.Error(err)
 	}

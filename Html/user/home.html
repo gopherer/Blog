@@ -65,7 +65,9 @@
                 </tr>
                 <tr>
                     <td>{{$t.BlogTitle}}</td>
+                    {{if ne $t.BlogPhoto ""}}
                     <td><img src="{{$t.BlogPhoto}}" width="200" height="200" alt=""></td>
+                    {{end}}
                     <td>{{$t.BlogContent}}</td>
                 </tr>
             </table>

@@ -8,7 +8,6 @@ import (
 	"blog/Tools"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/wonderivan/logger"
 	"net/http"
@@ -40,7 +39,6 @@ func postUserLogin(context *gin.Context) {
 	if err != nil {
 		logger.Error(err)
 	}
-	fmt.Println(user)
 	respUser, err := new(Service.UserService).UserLogin(user)
 	accountErr := errors.New("用户不存在")
 	pwdErr := errors.New("输入密码有误")
@@ -162,6 +160,7 @@ func postProfile(context *gin.Context) {
 	//	logger.Error(err)
 	//}
 	allBlog := new(Service.BlogService).BlogAll()
+
 	//返回home结果页
 	CTools.ContextHtml(context, "home.html", *respUser, allBlog)
 	//context.HTML(http.StatusOK, "home.html", gin.H{
@@ -224,8 +223,12 @@ func getAccount(context *gin.Context) {
 }
 
 func getProfile(context *gin.Context) {
-
-	context.HTML(http.StatusOK, "profile.html", gin.H{})
+	user, err := CTools.GetUserSession(context)
+	if err != nil {
+		logger.Error(err)
+	}
+	CTools.ContextHtml(context, "profile.html", user, []Model.Blog{})
+	//context.HTML(http.StatusOK, "profile.html", gin.H{})
 }
 
 func getUpFile(context *gin.Context) {

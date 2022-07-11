@@ -20,7 +20,7 @@ func OrmEngine(database Model.DatabaseConfig) error {
 		logger.Error("xorm Engine 启动失败", err)
 		return err
 	}
-	engine.ShowSQL(database.ShowSql)
+	//engine.ShowSQL(database.ShowSql)
 	err = engine.Sync2(new(Model.User), new(Model.Blog)) //将结构体映射为数据库中的表
 	if err != nil {
 		logger.Error(err)
