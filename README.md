@@ -4,7 +4,7 @@
 git clone https://github.com/gopherer/Blog.git
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
-go mon tidy
+go mod tidy
 ```
 ## 注意事项：
 - 检查Config/Blog.json配置信息与本机配置信息是否相符
