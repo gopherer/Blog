@@ -30,5 +30,21 @@ func (blogDao *BlogDao) AllBlog() *xorm.Rows {
 	var blog Model.Blog
 	rowsBlog, _ := Tools.DbEngine.Rows(&blog)
 	return rowsBlog
-
+}
+func (blogDao *BlogDao) SortSet(sort Model.Sort) error {
+	//fmt.Println(sort)
+	result, _ := Tools.DbEngine.InsertOne(sort)
+	//fmt.Println(result)
+	if result == 0 {
+		return errors.New("sortLose")
+	}
+	return nil
+}
+func (blogDao *BlogDao) SortGet() *xorm.Rows {
+	var sort Model.Sort
+	rowsSort, _ := Tools.DbEngine.Rows(&sort)
+	return rowsSort
+}
+func (blogDao *BlogDao) SortDelete(sort Model.Sort) {
+	_, _ = Tools.DbEngine.ID(sort.SortID).Delete(sort)
 }

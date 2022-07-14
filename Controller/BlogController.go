@@ -20,9 +20,13 @@ func (blogController *BlogController) BlogController(context *gin.RouterGroup) {
 	context.POST("/publish", Middleware.JudgeLogin(), postPublish)
 	context.POST("/modify", Middleware.JudgeLogin(), postModify)
 	context.POST("/delete", Middleware.JudgeLogin(), postDelete)
+	context.POST("/sort", Middleware.JudgeLogin(), postSort)
+	context.POST("/sortDelete", Middleware.JudgeLogin(), postSortDelete)
 	context.GET("/publish", Middleware.JudgeLogin(), getPublish)
 	context.GET("/modify", Middleware.JudgeLogin(), getModify)
 	context.GET("/delete", Middleware.JudgeLogin(), getDelete)
+	context.GET("/sort", Middleware.JudgeLogin(), getSort)
+	context.GET("/sortDelete", Middleware.JudgeLogin(), getSortDelete)
 }
 func postPublish(context *gin.Context) {
 	var blog Model.Blog
@@ -33,6 +37,7 @@ func postPublish(context *gin.Context) {
 		context.String(http.StatusInternalServerError, "标题不能为空")
 		return
 	}
+	blog.BlogSort, _ = strconv.Atoi(context.PostForm("blog_sort"))
 	//fmt.Println(blog.BlogTitle)
 	file, _ := context.FormFile("blog_photo")
 	//fmt.Println(file, "-----------------")
@@ -187,6 +192,38 @@ func postDelete(context *gin.Context) {
 	//})
 }
 
+func postSort(context *gin.Context) {
+	var sort Model.Sort
+	sort.SortName = context.PostForm("sort_name")
+	err := new(Service.BlogService).SetSort(sort)
+	if err != nil {
+		logger.Error(err.Error())
+	}
+	//if err.Error() == "sortLose" {
+	//	logger.Error(err.Error())
+	//}
+
+	sessUser, err := CTools.GetUserSession(context)
+	if err != nil {
+		logger.Error(err)
+	}
+	allBlog := new(Service.BlogService).BlogAll()
+	CTools.ContextHtml(context, "home.html", sessUser, allBlog)
+}
+
+func postSortDelete(context *gin.Context) {
+	var sort Model.Sort
+	sort.SortID, _ = strconv.Atoi(context.PostForm("sort_id"))
+	//fmt.Println(sort)
+	new(Service.BlogService).DeleteSort(sort)
+	sessUser, err := CTools.GetUserSession(context)
+	if err != nil {
+		logger.Error(err)
+	}
+	allBlog := new(Service.BlogService).BlogAll()
+	CTools.ContextHtml(context, "home.html", sessUser, allBlog)
+}
+
 //使用路由组会导致访问时 默认会加上路由组定义的路径 导致页面跳转问题
 func getPublish(context *gin.Context) {
 	context.HTML(http.StatusOK, "publish.html", gin.H{})
@@ -196,4 +233,10 @@ func getModify(context *gin.Context) {
 }
 func getDelete(context *gin.Context) {
 	context.HTML(http.StatusOK, "delete.html", gin.H{})
+}
+func getSort(context *gin.Context) {
+	context.HTML(http.StatusOK, "sort.html", gin.H{})
+}
+func getSortDelete(context *gin.Context) {
+	context.HTML(http.StatusOK, "sortDelete.html", gin.H{})
 }

@@ -11,6 +11,7 @@ import (
 //type Orm struct {
 //	*xorm.Engine
 //}
+
 var DbEngine *xorm.Engine
 
 func OrmEngine(database Model.DatabaseConfig) error {
@@ -21,7 +22,7 @@ func OrmEngine(database Model.DatabaseConfig) error {
 		return err
 	}
 	//engine.ShowSQL(database.ShowSql)
-	err = engine.Sync2(new(Model.User), new(Model.Blog)) //将结构体映射为数据库中的表
+	err = engine.Sync2(new(Model.User), new(Model.Blog), new(Model.Sort)) //将结构体映射为数据库中的表
 	if err != nil {
 		logger.Error(err)
 	}

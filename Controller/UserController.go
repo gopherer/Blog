@@ -20,7 +20,7 @@ import (
 type UserController struct {
 }
 
-//每调用一次handle 都可以视为调用一次goroutine
+// UserController 每调用一次handle 都可以视为调用一次goroutine
 func (uL *UserController) UserController(context *gin.RouterGroup) {
 	context.POST("/home", Middleware.VisitIP(), postUserLogin)
 	context.POST("/account", Middleware.JudgeLogin(), postAccount)
@@ -38,6 +38,10 @@ func postUserLogin(context *gin.Context) {
 	err := context.Bind(&user)
 	if err != nil {
 		logger.Error(err)
+	}
+	//限制账号输入长度
+	if len(user.UserAccount) > 20 || len(user.UserPwd) > 20 {
+		context.String(http.StatusInternalServerError, "账号或密码过长")
 	}
 	respUser, err := new(Service.UserService).UserLogin(user)
 	accountErr := errors.New("用户不存在")

@@ -41,3 +41,25 @@ func (blogService *BlogService) BlogAll() []Model.Blog {
 	}
 	return blog
 }
+
+func (blogService *BlogService) SetSort(sort Model.Sort) error {
+	return new(DataAccess.BlogDao).SortSet(sort)
+}
+
+func (blogService *BlogService) GetSort() []Model.Sort {
+	var sort []Model.Sort
+	rowsSort := new(DataAccess.BlogDao).SortGet()
+	for rowsSort.Next() {
+		tem := Model.Sort{}
+		err := rowsSort.Scan(&tem)
+		if err != nil {
+			logger.Error(err)
+		}
+		sort = append(sort, tem)
+	}
+	return sort
+}
+
+func (blogService *BlogService) DeleteSort(sort Model.Sort) {
+	new(DataAccess.BlogDao).SortDelete(sort)
+}

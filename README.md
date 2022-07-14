@@ -1,9 +1,9 @@
 # Blog 
 
 ```
-git clone https://github.com/gopherer/Blog.git
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
+git clone https://github.com/gopherer/Blog.git
 go mod tidy
 ```
 ## 注意事项：

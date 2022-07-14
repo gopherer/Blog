@@ -47,13 +47,34 @@
         <form style="float:left" action="../blog/delete" method="get">
             <input type="submit" value="删除博文">
         </form>
+        <form style="float:left" action="../blog/sort" method="get">
+            <input type="submit" value="添加分类">
+        </form>
+        <form style="float:left" action="../blog/sortDelete" method="get">
+            <input type="submit" value="删除分类">
+        </form>
     </div>
     <br>
     <br>
 
-    <span style="color: blueviolet;font-weight:bolder;" >博文内容</span>
+    <span style="color: blueviolet;font-weight:bolder;" >博文分类列表</span>
     <br>
+    <ol>
+        {{range  $t := .sort}}
+        <table>
+            <tr>
+                <th>分类编号</th>
+                <th>分类名称</th>
+            </tr>
+            <tr>
+                <td>{{$t.SortID}}</td>
+                <td>{{$t.SortName}}</td>
+            </tr>
+        </table>
+        {{end}}
+    </ol>
 
+    <span style="color: blueviolet;font-weight:bolder;" >博文内容</span>
     <ol>
         {{range  $t := .blog}}
 {{/*            <li>{{$t.BlogTitle}}:---<img src="{{$t.BlogPhoto}}" width="200" height="200" alt=""></li>*/}}

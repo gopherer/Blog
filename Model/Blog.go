@@ -6,4 +6,5 @@ type Blog struct {
 	BlogContent    string `form:"blog_content" xorm:"varchar(3000)"`
 	BlogCreateTime string `form:"blog_create_time" xorm:"varchar(30) notnull"`
 	BlogModifyTime string `form:"blog_modify_time" xorm:"varchar(30)"`
+	BlogSort       int    `form:"blog_sort" xorm:"int notnull comment('博文所属分类')"`
 }

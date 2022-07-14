@@ -1,6 +1,6 @@
 package Model
 
-//form tag 可接收html form表单 application/x-www-form-urlencoded的内容 也可以接受json文本的内容
+// form tag 可接收html form表单 application/x-www-form-urlencoded的内容 也可以接受json文本的内容
 //json tag 只可以接收json的文本内容
 //可以使用xorm框架中 xorm tag标签将 结构体映射成数据库中的表
 //binding tag 可用 但不好 最好专门写个函数处理前端输入的数据
