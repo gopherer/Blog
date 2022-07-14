@@ -7,6 +7,7 @@ git clone https://github.com/gopherer/Blog.git
 go mod tidy
 ```
 ## 注意事项：
+
 - 检查Config/Blog.json配置信息与本机配置信息是否相符
 - 需初始化数据库表user的账号密码
 
