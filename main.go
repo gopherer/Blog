@@ -34,8 +34,9 @@ func main() {
 	//
 	engine.Static("Upload/user", "./Upload/user")
 	engine.Static("Upload/blog", "./Upload/blog")
-	engine.LoadHTMLGlob("Html/**/*") //模板解析
+	engine.LoadHTMLGlob("./Html/**/*") //模板解析
 	//engine.MaxMultipartMemory = 8 << 20
+	//engine.StaticFS("/Html/index", http.Dir("./Html/index"))
 	Tools.InitSession(engine, &Tools.Cfg.Redis)
 	userRouter := engine.Group("/user")
 	blogRouter := engine.Group("/blog")
