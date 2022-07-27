@@ -24,5 +24,8 @@ func main() {
 			"arr": arr,
 		})
 	})
-	engine.Run()
+	err := engine.Run()
+	if err != nil {
+		return
+	}
 }
