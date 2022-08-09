@@ -1,10 +1,10 @@
 package Controller
 
 import (
-	"blog/Controller/CTools"
 	"blog/Service"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type IndexController struct {
@@ -19,7 +19,8 @@ func HomePage(context *gin.Context) {
 	blog := new(Service.BlogService).BlogAll()
 	fmt.Println(user)
 	fmt.Println(blog)
-	CTools.ContextHtml(context, "Html/index.html", user, blog)
+	//CTools.ContextHtml(context, "Html/index.html", user, blog)
+	context.HTML(http.StatusOK, "index.html", nil)
 	//context.HTML(http.StatusOK, "Html/index.html", gin.H{
 	//	"account": user.UserAccount,
 	//	"nick":    user.UserNick,

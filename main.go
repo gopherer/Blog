@@ -26,6 +26,14 @@ func init() {
 
 func main() {
 	engine := gin.Default()
+	//Axure     index页面
+	engine.Static("/Axure/images/index", "./Axure/images/index")
+	engine.Static("/Axure/resources/scripts", "./Axure/resources/scripts")
+	//engine.Static("/Axure/resources/scripts/axure", "./Axure/resources/scripts/axure")
+	engine.Static("/Axure/resources/css", "./Axure/resources/css")
+	engine.Static("/Axure/data", "./Axure/data")
+	engine.Static("/Axure/files/index", "./Axure/files/index")
+
 	engine.Static("user/Upload/user", "./Upload/user") //加载静态资源   路由组会导致访问是默认加上路由组定义的路径。user组
 	engine.Static("blog/Upload/user", "./Upload/user")
 	//engine.Static("/blog/publish", "./Upload/blog")
